@@ -1,3 +1,5 @@
+import streamlit as st
+
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -8,11 +10,13 @@ SCOPES = [
 
 def connect_sheet():
 
-    creds = Credentials.from_service_account_file(
-        "credentials.json",
+    creds_dict = dict(st.secrets["gcp_service_account"])
+
+    creds = Credentials.from_service_account_info(
+        creds_dict,
         scopes=SCOPES
     )
-
+    
     client = gspread.authorize(creds)
 
     spreadsheet = client.open("GOALS MATTER")
