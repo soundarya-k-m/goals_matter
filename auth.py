@@ -17,14 +17,18 @@ def verify_user(username, password):
 
     data = users_sheet.get_all_values()
 
+    # Skip header row
     for row in data[1:]:
 
         if len(row) < 2:
             continue
 
+        stored_username = str(row[0]).strip()
+        stored_password = str(row[1]).strip()
+
         if (
-            row[0].strip().lower() == username.strip().lower()
-            and row[1].strip() == password.strip()
+            stored_username == username.strip()
+            and stored_password == password.strip()
         ):
             return True
 
@@ -34,20 +38,30 @@ def verify_user(username, password):
 def login_page():
 
     st.title("🎯 GOALS MATTER")
+    st.subheader("Login")
 
-    username = st.text_input("Username")
+    username = st.text_input(
+        "Username",
+        placeholder="Enter username"
+    )
 
     password = st.text_input(
         "Password",
-        type="password"
+        type="password",
+        placeholder="Enter password"
     )
 
-    if st.button("Login"):
+    if st.button("Login", use_container_width=True):
 
-        if verify_user(username, password):
+        if username == "" or password == "":
+            st.warning("Please enter username and password")
+
+        elif verify_user(username, password):
 
             st.session_state.logged_in = True
             st.session_state.username = username
+
+            st.success("Login Successful")
 
             st.rerun()
 
