@@ -1,7 +1,7 @@
 import streamlit as st
 from sheets import get_users_sheet
-def initialize_session():
 
+def initialize_session():
     if "logged_in" not in st.session_state:
         st.session_state.logged_in = False
 
@@ -9,13 +9,11 @@ def initialize_session():
         st.session_state.username = ""
 
 def verify_user(username, password):
-
     users_sheet = get_users_sheet()
 
     data = users_sheet.get_all_values()
 
     for row in data[1:]:
-
         if len(row) < 2:
             continue
 
@@ -31,13 +29,11 @@ def verify_user(username, password):
     return False
 
 def user_exists(username):
-
     users_sheet = get_users_sheet()
 
     data = users_sheet.get_all_values()
 
     for row in data[1:]:
-
         if len(row) < 1:
             continue
 
@@ -47,17 +43,16 @@ def user_exists(username):
     return False
 
 def create_user(username, password):
-
     users_sheet = get_users_sheet()
 
     users_sheet.append_row([
-    username.strip(),
-    password.strip()
-])
+        username.strip(),
+        password.strip()
+    ])
 
 def login_page():
 
-    st.title("🎯 GOALS MATTER")
+st.title("🎯 GOALS MATTER")
 
 tab1, tab2 = st.tabs(
     ["🔑 Login", "🆕 Sign Up"]
@@ -178,7 +173,7 @@ with tab2:
 
 def logout():
 
-    st.session_state.logged_in = False
-    st.session_state.username = ""
+st.session_state.logged_in = False
+st.session_state.username = ""
 
-    st.rerun()
+st.rerun()
